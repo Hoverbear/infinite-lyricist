@@ -1,5 +1,5 @@
 #! /bin/env python2.7
-import marsyas
+import marsyas_helper
 import argparse
 
 # First, let's parse the command line options.
