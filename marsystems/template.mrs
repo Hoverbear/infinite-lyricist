@@ -1,0 +1,5 @@
+Series {
+    -> input: SoundFileSource
+    -> output: SoundFileSink
+}
+
