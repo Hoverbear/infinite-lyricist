@@ -1,0 +1,11 @@
+Series {
+    -> input_0: SoundFileSource { filename = "../samples/test_1.mp3" }
+    -> MixToMono
+    -> Spectrum
+    -> PowerSpectrum { spectrumType = "magnitude" }
+    -> Chroma
+    -> Krumhansl_key_finder
+    -> Transposer
+    -> output: SoundFileSink
+}
+
