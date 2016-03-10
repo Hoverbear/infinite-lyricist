@@ -1,0 +1,12 @@
+Series {
+    + public file = ""
+    + public done = (input/hasData == false)
+    -> Accumulator {
+        nTimes = 512
+        -> Series {
+            -> input: SoundFileSource { filename = /file }
+            -> MixToMono
+        }
+    }
+}
+
