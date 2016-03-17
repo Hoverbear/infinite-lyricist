@@ -1,11 +1,16 @@
+// Keys by index: A, A#, B, C, C#, D, D#, E, F, F#, G, G# (I think)
+// 5 seconds is good / bigger window (2048? 4096?)
+// single value might be best (majority vote / mean)
 Series {
-    -> input_0: SoundFileSource { filename = "../samples/test_1.mp3" }
+    + public file = ""
+    + public done = (input/hasData == false)
+    -> input: SoundFileSource { filename = /file onSamples = 4096 }
     -> MixToMono
     -> Spectrum
     -> PowerSpectrum { spectrumType = "magnitude" }
     -> Chroma
     -> Krumhansl_key_finder
     -> Transposer
-    -> output: SoundFileSink
+    -> output: CsvSink
 }
 
