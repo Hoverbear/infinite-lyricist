@@ -4,13 +4,13 @@
 Series {
     + public file = ""
     + public done = (input/hasData == false)
+    + public output = last/processedData
     -> input: SoundFileSource { filename = /file onSamples = 4096 }
     -> MixToMono
     -> Spectrum
     -> PowerSpectrum { spectrumType = "magnitude" }
     -> Chroma
-    -> Krumhansl_key_finder
+    -> last: Krumhansl_key_finder
     -> Transposer
-    -> output: CsvSink
 }
 
