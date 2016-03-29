@@ -58,15 +58,15 @@ def separate_by_silence(wav_handle, threshold):
     for sample, string in wav_sample_iter(wav_handle):
         if sample <= threshold:
             if len(frame) >= min_frame_length:
-                wfw.write_frames(frame)
-                wfw.next()
+                wfw.add_data(frame)
+                wfw.write_to_next_file()
                 frame = ""
         else:
             frame += string
 
     if len(frame) >= min_frame_length:
-        wfw.write_frames(frame)
-        wfw.done()
+        wfw.add_data(frame)
+        wfw.write_to_next_file()
 
     return wfw.get_filenames()
 
