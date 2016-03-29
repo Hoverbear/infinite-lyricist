@@ -49,15 +49,24 @@ def wav_sample_iter(wav_handle):
 
 
 def separate_by_silence(wav_handle, threshold):
-    wfw = WavFileWriter("vocal_split", wav_handle.getparams())
+    min_frame_length = wav_handle.getframerate() * 2
+
+    wfw = WavFileWriter("vocal_split.wav", wav_handle.getparams())
+
+    frame = ""
 
     for sample, string in wav_sample_iter(wav_handle):
         if sample <= threshold:
-            wfw.next()
+            if len(frame) >= min_frame_length:
+                wfw.write_frames(frame)
+                wfw.next()
+                frame = ""
         else:
-            wfw.write_frames(string)
+            frame += string
 
-    wfw.done()
+    if len(frame) >= min_frame_length:
+        wfw.write_frames(frame)
+        wfw.done()
 
     return wfw.get_filenames()
 
