@@ -30,6 +30,8 @@ def wav_sample_iter(wav_handle):
 
 
 def separate_by_silence(wav_handle, threshold):
+    threshold = max(threshold, 0)
+
     min_frame_length = wav_handle.getframerate() * 2 * wav_handle.getnchannels()
 
     wfw = WavFileWriter("vocal_split.wav", wav_handle.getparams())
