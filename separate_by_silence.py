@@ -57,6 +57,7 @@ if __name__ == "__main__":
 
     print wav_params_to_string(handle)
 
-    print separate_by_silence(handle, 1)
+    filenames = separate_by_silence(handle, 1)
+    print filenames
 
 
