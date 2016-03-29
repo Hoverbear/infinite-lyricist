@@ -28,7 +28,6 @@ def wav_params_to_string(wav_handle):
 
 def wav_sample_iter(wav_handle):
 
-    assert wav_handle.getnchannels() == 1, "Expects wav file with only 1 channel but found {}".format(wav_handle.getnchannels())
     assert wav_handle.getsampwidth() == 2, "Expects wav file with sample width of 2 but found {}".format(wav_handle.getsampwidth())
 
     nframes = wav_handle.getnframes()
@@ -49,7 +48,7 @@ def wav_sample_iter(wav_handle):
 
 
 def separate_by_silence(wav_handle, threshold):
-    min_frame_length = wav_handle.getframerate() * 2
+    min_frame_length = wav_handle.getframerate() * 2 * wav_handle.getnchannels()
 
     wfw = WavFileWriter("vocal_split.wav", wav_handle.getparams())
 
