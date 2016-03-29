@@ -1,25 +1,7 @@
 import wave
-import marsyas
 import sys
 from WavFileWriter import WavFileWriter
 import struct
-
-
-def mix_to_mono(input_filename, output_filename):
-
-    mng = marsyas.MarSystemManager()
-
-    nwk = mng.create("Series", "network_mix_to_mono")
-
-    nwk.addMarSystem(mng.create("SoundFileSource", "input"))
-    nwk.addMarSystem(mng.create("MixToMono", "mono"))
-    nwk.addMarSystem(mng.create("SoundFileSink", "output"))
-
-    nwk.updControl("SoundFileSource/input/mrs_string/filename", marsyas.MarControlPtr.from_string(input_filename))
-    nwk.updControl("SoundFileSink/output/mrs_string/filename", marsyas.MarControlPtr.from_string(output_filename))
-
-    while nwk.getControl("SoundFileSource/input/mrs_bool/hasData").to_bool():
-        nwk.tick()
 
 
 def wav_params_to_string(wav_handle):
@@ -71,9 +53,6 @@ def separate_by_silence(wav_handle, threshold):
 
 
 if __name__ == "__main__":
-    #mono_file = "temp_mono.wav"
-    #mix_to_mono(sys.argv[1], mono_file)
-    #handle = wave.open(mono_file, 'r')
     handle = wave.open(sys.argv[1], 'r')
 
     print wav_params_to_string(handle)

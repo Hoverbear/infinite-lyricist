@@ -1,5 +1,22 @@
 import marsyas
 
+# The output mix_to_mono doesn't seem to play well with separate_by_silence().
+def mix_to_mono(input_filename, output_filename):
+
+    mng = marsyas.MarSystemManager()
+
+    nwk = mng.create("Series", "network_mix_to_mono")
+
+    nwk.addMarSystem(mng.create("SoundFileSource", "input"))
+    nwk.addMarSystem(mng.create("MixToMono", "mono"))
+    nwk.addMarSystem(mng.create("SoundFileSink", "output"))
+
+    nwk.updControl("SoundFileSource/input/mrs_string/filename", marsyas.MarControlPtr.from_string(input_filename))
+    nwk.updControl("SoundFileSink/output/mrs_string/filename", marsyas.MarControlPtr.from_string(output_filename))
+
+    while nwk.getControl("SoundFileSource/input/mrs_bool/hasData").to_bool():
+        nwk.tick()
+
 def detect_key(music_file):
     """
     This function assists in running Marsyas scripts.
