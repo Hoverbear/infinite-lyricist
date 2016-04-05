@@ -5,6 +5,7 @@ Series {
     + public file = ""
     + public done = (input/hasData == false)
     + public output = last/processedData
+    + public key_name = last/key_name
     -> input: SoundFileSource { filename = /file onSamples = 4096 }
     -> MixToMono
     -> Spectrum
@@ -13,4 +14,3 @@ Series {
     -> last: Krumhansl_key_finder
     -> Transposer
 }
-
