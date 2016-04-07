@@ -32,7 +32,7 @@ OPTIONS_BP = 2
 
 extra = []
 
-def bpm_of_file(filename):
+def detect_bpm(filename):
     """
     Gets the BPM of a given file.
     """
