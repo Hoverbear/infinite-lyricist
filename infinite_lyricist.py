@@ -56,3 +56,18 @@ print "Vocal sections (filename, length in seconds):", split_vocals
 print "Elapsed seconds:", time.time() - start
 print
 
+print "Detecting key and BMP of vocal sections:"
+vocal_sections = []
+for fname, length in split_vocals:
+    start = time.time()
+    key = detect_key(fname)
+    bpm = detect_bpm(fname)
+    print fname + ":"
+    print "  key:", key
+    print "  BMP:", bpm
+    print "  Elapsed seconds:", time.time() - start
+    vocal_sections.append( (fname, length, key, bpm) )
+print
+
+print vocal_sections
+
