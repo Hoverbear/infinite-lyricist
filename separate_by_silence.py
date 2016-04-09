@@ -5,8 +5,11 @@ import struct
 import copy
 
 
-def wav_params_to_string(wav_handle):
-    return "nchannels=%s sampwidth=%s framerate=%s nframes=%s comptype=%s compname=%s" % wav_handle.getparams()
+def wav_params_to_string(wav_filename):
+    wav_handle = wave.open(wav_filename, 'r')
+    s = "nchannels=%s sampwidth=%s framerate=%s nframes=%s comptype=%s compname=%s" % wav_handle.getparams()
+    wav_handle.close()
+    return s
 
 
 def wav_sample_iter(wav_handle):
@@ -68,7 +71,9 @@ def combine_short_files(wav_file_writer, minimum_length_seconds):
     return final_file_info
 
 
-def separate_by_silence(wav_handle, threshold, minimum_length_seconds):
+def separate_by_silence(wav_filename, threshold, minimum_length_seconds):
+    wav_handle = wave.open(wav_filename, 'r')
+
     threshold = max(threshold, 0)
 
     min_frame_length = wav_handle.getframerate() * 2 * wav_handle.getnchannels()
@@ -90,15 +95,13 @@ def separate_by_silence(wav_handle, threshold, minimum_length_seconds):
         wfw.add_data(frame)
         wfw.write_to_next_file()
 
+    wav_handle.close()
+
     return combine_short_files(wfw, minimum_length_seconds)
 
 
 if __name__ == "__main__":
-    handle = wave.open(sys.argv[1], 'r')
-
-    print wav_params_to_string(handle)
-
-    filenames = separate_by_silence(handle, 1, 4.0)
-    print filenames
+    print wav_params_to_string(sys.argv[1])
+    print separate_by_silence(sys.argv[1], 1, 4.0)
 
 
