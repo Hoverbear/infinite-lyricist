@@ -7,7 +7,7 @@ class WavFileWriter:
 
     def __init__(self, filename_root, wav_params):
         self.__fni = FileNameIncrementor(filename_root)
-        self.__filenames = []
+        self.__file_info = []
         self.__data = ""
         self.__wav_params = wav_params
 
@@ -25,13 +25,15 @@ class WavFileWriter:
         handle = wave.open(name, 'w')
         handle.setparams(self.__wav_params)
         handle.writeframes(self.__data)
+        length_in_seconds = float(handle.getnframes()) / handle.getframerate()
         handle.close()
 
-        self.__filenames.append(name)
+        self.__file_info.append( (name, length_in_seconds) )
         self.__data = ""
 
 
-    def get_filenames(self):
-        return self.__filenames
+    # Returns a list of tuples of (filename, length_in_seconds).
+    def get_file_info(self):
+        return self.__file_info
 
 

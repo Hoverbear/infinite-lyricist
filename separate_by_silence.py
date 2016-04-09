@@ -51,7 +51,7 @@ def separate_by_silence(wav_handle, threshold):
         wfw.add_data(frame)
         wfw.write_to_next_file()
 
-    return wfw.get_filenames()
+    return wfw.get_file_info()
 
 
 if __name__ == "__main__":
