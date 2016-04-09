@@ -51,7 +51,7 @@ print
 
 print "Splitting vocal track by silence..."
 start = time.time()
-split_vocals = separate_by_silence(vocal_track, 1, 4.0)
+split_vocals = separate_by_silence(vocal_track, threshold=1, minimum_length_seconds=4.0)
 print "Split vocal filenames:", split_vocals
 print "Elapsed seconds:", time.time() -start
 print
