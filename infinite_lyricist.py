@@ -61,12 +61,16 @@ vocal_sections = []
 for fname, length in split_vocals:
     start = time.time()
     key = detect_key(fname)
-    bpm = detect_bpm(fname)
+    try:
+        bpm = detect_bpm(fname)
+    except:
+        bpm = None
     print fname + ":"
     print "  key:", key
     print "  BMP:", bpm
     print "  Elapsed seconds:", time.time() - start
-    vocal_sections.append( (fname, length, key, bpm) )
+    if bpm:
+        vocal_sections.append( (fname, length, key, bpm) )
 print
 
 print vocal_sections
