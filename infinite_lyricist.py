@@ -16,14 +16,14 @@ vocal_track = args.vocal_input
 instrumental_track = args.instrumental_input
 
 # Debug
-print(args)
+print args
 
 vocal_bpm = detect_bpm(vocal_track)
-print("Vocal BPM:", vocal_bpm)
+print "Vocal BPM:", vocal_bpm
 instrumental_bpm = detect_bpm(instrumental_track)
-print("Instrumental BPM:", instrumental_bpm)
+print "Instrumental BPM:", instrumental_bpm
 
 vocal_key = detect_key(vocal_track)
-print("Vocal Key:", vocal_key)
+print "Vocal Key:", vocal_key
 instrumental_key = detect_key(instrumental_track)
-print("Instrumental Key:", instrumental_key)
+print "Instrumental Key:", instrumental_key
