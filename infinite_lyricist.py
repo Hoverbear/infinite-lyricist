@@ -1,5 +1,5 @@
 #! /bin/env python2.7
-import marsyas_helper
+
 import argparse
 
 from bpm_detector import detect_bpm
