@@ -21,28 +21,28 @@ instrumental_track = args.instrumental_input
 print args
 print
 
-print "Proccessing vocal BPM..."
+print "Detecting vocal BPM..."
 start = time.time()
 vocal_bpm = detect_bpm(vocal_track)
 print "Vocal BPM:", vocal_bpm
 print "Elapsed seconds:", time.time() - start
 print
 
-print "Processing instrumental BPM..."
+print "Detecting instrumental BPM..."
 start = time.time()
 instrumental_bpm = detect_bpm(instrumental_track)
 print "Instrumental BPM:", instrumental_bpm
 print "Elapsed seconds:", time.time() - start
 print
 
-print "Processing vocal key..."
+print "Detecting vocal key..."
 start = time.time()
 vocal_key = detect_key(vocal_track)
 print "Vocal Key:", vocal_key
 print "Elapsed seconds:", time.time() - start
 print
 
-print "Processing instrumental key..."
+print "Detecting instrumental key..."
 start = time.time()
 instrumental_key = detect_key(instrumental_track)
 print "Instrumental Key:", instrumental_key
