@@ -5,6 +5,7 @@ import time
 
 from bpm_detector import detect_bpm
 from key_detector import detect_key
+from separate_by_silence import separate_by_silence
 
 # First, let's parse the command line options.
 parser = argparse.ArgumentParser(description='Mashes a vocal track onto a instrumental track.')
@@ -46,5 +47,12 @@ start = time.time()
 instrumental_key = detect_key(instrumental_track)
 print "Instrumental Key:", instrumental_key
 print "Elapsed seconds:", time.time() - start
+print
+
+print "Splitting vocal track by silence..."
+start = time.time()
+split_vocals = separate_by_silence(vocal_track, 1, 4.0)
+print "Split vocal filenames:", split_vocals
+print "Elapsed seconds:", time.time() -start
 print
 
