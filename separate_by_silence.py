@@ -78,7 +78,7 @@ def separate_by_silence(wav_filename, threshold, minimum_length_seconds):
 
     min_frame_length = wav_handle.getframerate() * 2 * wav_handle.getnchannels()
 
-    wfw = WavFileWriter("vocal_split.wav", wav_handle.getparams())
+    wfw = WavFileWriter("/tmp/vocal_split.wav", wav_handle.getparams())
 
     frame = ""
 
@@ -103,5 +103,3 @@ def separate_by_silence(wav_filename, threshold, minimum_length_seconds):
 if __name__ == "__main__":
     print wav_params_to_string(sys.argv[1])
     print separate_by_silence(sys.argv[1], 1, 4.0)
-
-
