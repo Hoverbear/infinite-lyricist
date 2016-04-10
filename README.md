@@ -8,6 +8,10 @@ This is a work in progress. Full instructions will follow.
 
 You must be using Python 2.7 (Not 3.0) and have a valid Marsyas installation with Swig bindings enabled in the build.
 
+Additionally, you should install the following via `pip`:
+
+* `pydub`
+
 Then you can just run `./infinite-lyricist vocal.mp3 instrumental.mp3`
 
 ## Developing

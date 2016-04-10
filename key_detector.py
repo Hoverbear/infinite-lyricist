@@ -20,7 +20,7 @@ def detect_key(music_file):
         result.append(system.getControl("mrs_string/key_name").to_string())
 
     counts = Counter(result).most_common();
-    print(counts)
+    # print(counts)
     return counts[0][0]
 
 

@@ -9,20 +9,28 @@ from bpm_detector import detect_bpm
 from key_detector import detect_key
 from separate_by_silence import separate_by_silence
 
+def parse_timecode(timecode_str):
+    parts = timecode_str.split(':')
+    minutes = int(parts[0])
+    seconds = int(parts[1])
+    if len(parts) == 3:
+        milliseconds = int(parts[2])
+    else:
+        milliseconds = 0
+    total_milliseconds = (minutes * 60000) + (seconds * 1000) + milliseconds
+    return total_milliseconds
+
 def parse_timecodes(timecode_str):
     start_times = []
-    for st in timecode_str.split(','):
-        parts = st.split(':')
-        minutes = int(parts[0])
-        seconds = int(parts[1])
-        if len(parts) == 3:
-            milliseconds = int(parts[2])
-        else:
-            milliseconds = 0
-        total_milliseconds = (minutes * 60000) + (seconds * 1000) + milliseconds
-        start_times.append(total_milliseconds)
+    end_times = []
 
-    durations = [j-i for i, j in zip(start_times[:-1], start_times[1:])]
+    for st in timecode_str.split(','):
+        start, end = st.split('-')
+        start, end = parse_timecode(start), parse_timecode(end)
+        start_times.append(start)
+        end_times.append(end)
+
+    durations = [j-i for i, j in zip(start_times, end_times)]
 
     timecodes = []
     for i in range(len(durations)):
@@ -37,7 +45,11 @@ def parse_timecodes(timecode_str):
 parser = argparse.ArgumentParser(description='Mashes a vocal track onto a instrumental track.')
 parser.add_argument('vocal_input', metavar='vocal_input', help='The vocal input')
 parser.add_argument('instrumental_input', metavar='instrumental_input', help='The instrumental input')
-parser.add_argument('instrumental_timecodes', metavar='instrumental_timecodes', help='Comma separated timecodes that mark the start of sections in the instrumental input. MM:SS:FFFF M=minutes, S=seconds, F=milliseconds (optional). Example: 00:00,00:08:00,00:15,00:23,00:32,00:40,00:47,00:56')
+parser.add_argument('instrumental_timecodes', metavar='instrumental_timecodes', help="""
+    Comma separated timecodes that mark the start of sections in the instrumental input.
+    MM:SS:FFFF M=minutes, S=seconds, F=milliseconds (optional).
+    Example: 00:00-00:30,00:40-00:47,00:56-01:12')
+""")
 
 # Now we parse them and pick up the existing files or error out.
 args = parser.parse_args()
@@ -49,24 +61,10 @@ timecodes = parse_timecodes(args.instrumental_timecodes)
 print args
 print
 
-print "Detecting vocal BPM..."
-start = time.time()
-vocal_bpm = detect_bpm(vocal_track)
-print "Vocal BPM:", vocal_bpm
-print "Elapsed seconds:", time.time() - start
-print
-
 print "Detecting instrumental BPM..."
 start = time.time()
 instrumental_bpm = detect_bpm(instrumental_track)
 print "Instrumental BPM:", instrumental_bpm
-print "Elapsed seconds:", time.time() - start
-print
-
-print "Detecting vocal key..."
-start = time.time()
-vocal_key = detect_key(vocal_track)
-print "Vocal Key:", vocal_key
 print "Elapsed seconds:", time.time() - start
 print
 
@@ -139,5 +137,3 @@ while (len(timecodes) > 0) and (len(vocal_sections) > 0):
 
 
 instrumental_sound.export("output.wav", format="wav")
-
-

@@ -63,7 +63,7 @@ def detect_bpm(filename):
 
     bpm = accumulator_overall(tempo_lags, oss_sr)
 
-    return bpm, tempo_lags[-1]
+    return bpm #, tempo_lags[-1]
 
 def load_wavfile(filename):
     """
