@@ -10,9 +10,9 @@ from key_detector import detect_key
 from separate_by_silence import separate_by_silence
 
 def parse_timecodes(timecode_str):
-    timecodes = []
-    for tc in timecode_str.split(','):
-        parts = tc.split(':')
+    start_times = []
+    for st in timecode_str.split(','):
+        parts = st.split(':')
         minutes = int(parts[0])
         seconds = int(parts[1])
         if len(parts) == 3:
@@ -20,18 +20,18 @@ def parse_timecodes(timecode_str):
         else:
             milliseconds = 0
         total_milliseconds = (minutes * 60000) + (seconds * 1000) + milliseconds
-        timecodes.append(total_milliseconds)
+        start_times.append(total_milliseconds)
 
-    durations = [j-i for i, j in zip(timecodes[:-1], timecodes[1:])]
+    durations = [j-i for i, j in zip(start_times[:-1], start_times[1:])]
 
-    timecodes_with_durations = []
+    timecodes = []
     for i in range(len(durations)):
-        timecodes_with_durations.append( {
-            "start": timecodes[i],
+        timecodes.append( {
+            "start": start_times[i],
             "duration": durations[i]
         } )
 
-    return timecodes_with_durations
+    return timecodes
 
 # First, let's parse the command line options.
 parser = argparse.ArgumentParser(description='Mashes a vocal track onto a instrumental track.')
