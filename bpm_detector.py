@@ -6,7 +6,6 @@ import os
 import numpy
 import scipy.io.wavfile
 import scipy.signal
-import pylab
 
 BPM_MIN = 50
 BPM_MAX = 210  # marsyas
