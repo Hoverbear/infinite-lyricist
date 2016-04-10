@@ -26,7 +26,10 @@ def parse_timecodes(timecode_str):
 
     timecodes_with_durations = []
     for i in range(len(durations)):
-        timecodes_with_durations.append( (timecodes[i], durations[i]) )
+        timecodes_with_durations.append( {
+            "start": timecodes[i],
+            "duration": durations[i]
+        } )
 
     return timecodes_with_durations
 
@@ -114,10 +117,7 @@ while (len(timecodes) > 0) and (len(vocal_sections) > 0):
     vs_index = 0
     for vs in vocal_sections:
         vs_length_milliseconds = vs[1] * 1000
-        print vs_length_milliseconds
-        tc_duration = tc[1]
-        print tc_duration
-        if vs_length_milliseconds <= tc_duration:
+        if vs_length_milliseconds <= tc["duration"]:
             any_can_fit = True
             break
         vs_index += 1
@@ -135,7 +135,7 @@ while (len(timecodes) > 0) and (len(vocal_sections) > 0):
     vocal_sound = AudioSegment.from_file(vocal[0])
 
     # Overlay the audio
-    instrumental_sound = instrumental_sound.overlay(vocal_sound, position=tc[0])
+    instrumental_sound = instrumental_sound.overlay(vocal_sound, position=tc["start"])
 
 
 instrumental_sound.export("output.wav", format="wav")
