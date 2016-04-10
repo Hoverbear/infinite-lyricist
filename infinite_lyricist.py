@@ -47,8 +47,11 @@ parser.add_argument('vocal_input', metavar='vocal_input', help='The vocal input'
 parser.add_argument('instrumental_input', metavar='instrumental_input', help='The instrumental input')
 parser.add_argument('instrumental_timecodes', metavar='instrumental_timecodes', help="""
     Comma separated timecodes that mark the start of sections in the instrumental input.
-    MM:SS:FFFF M=minutes, S=seconds, F=milliseconds (optional).
-    Example: 00:00-00:30,00:40-00:47,00:56-01:12')
+    Each timecode consists of a start timestamp and an end timestamp separate by a dash.
+    The timestamp format is:
+        MM:SS:FFFF M=minutes, S=seconds, F=milliseconds (optional).
+    Example timecodes for the provided song:
+        00:08-00:14:5000,00:15-00:22:5000,00:23-00:31:5000,00:32-00:39:500,00:40-00:46:5000,00:47-00:56
 """)
 
 # Now we parse them and pick up the existing files or error out.
