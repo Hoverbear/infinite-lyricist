@@ -1,9 +1,10 @@
 #! /bin/env python2.7
-import marsyas_helper
+#import marsyas_helper
 import argparse
 
 from bpm_detector import detect_bpm
 from key_detector import detect_key
+from key_detector import yin_pitches
 
 # First, let's parse the command line options.
 parser = argparse.ArgumentParser(description='Mashes a vocal track onto a instrumental track.')
@@ -18,12 +19,12 @@ instrumental_track = args.instrumental_input
 # Debug
 print(args)
 
-vocal_bpm = detect_bpm(vocal_track)
+"""vocal_bpm = detect_bpm(vocal_track)
 print("Vocal BPM:", vocal_bpm)
 instrumental_bpm = detect_bpm(instrumental_track)
-print("Instrumental BPM:", instrumental_bpm)
+print("Instrumental BPM:", instrumental_bpm)"""
 
-vocal_key = detect_key(vocal_track)
-print("Vocal Key:", vocal_key)
-instrumental_key = detect_key(instrumental_track)
-print("Instrumental Key:", instrumental_key)
+vocal_pitches = yin_pitches(vocal_track)
+print("Vocal Key:", vocal_pitches)
+"""instrumental_key = detect_key(instrumental_track)
+print("Instrumental Key:", instrumental_key, ticks)"""
