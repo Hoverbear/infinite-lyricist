@@ -23,7 +23,7 @@ def wav_sample_iter(wav_handle):
         frame_len = len(frame)
 
         if frame_len % 2 != 0:
-            raise Expection("Frame lenght of {} is not an even number".format(frame_len))
+            raise Expection("Frame length of {} is not an even number".format(frame_len))
 
         if frame_len == 0:
             yield (0, "0")
