@@ -31,6 +31,10 @@ class WavFileWriter:
         self.__file_info.append( (name, length_in_seconds) )
         self.__data = ""
 
+    def get_next_name(self):
+        name = self.__fni.next()
+        return name
+
 
     # Returns a list of tuples of (filename, length_in_seconds).
     def get_file_info(self):

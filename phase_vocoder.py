@@ -10,18 +10,17 @@ convertmode_ = "sorted"
 multires_ = False
 multiresMode_ = "transient_switch"
 bopt = 320
-sopt = 80
+sopt = 220
 music_file = ""
-options = {'music_file':music_file, 'N':N, 'Nw':Nw, 'D':D, 'I':I, 'P':P, 'unconvertmode_':unconvertmode_, 'convertmode_':convertmode_, 'multires_':multires_, 'multiresMode_':multiresMode_, 'bopt':bopt, 'sopt':sopt}
+outfile = ""
+options = {'music_file':music_file, 'N':N, 'Nw':Nw, 'D':D, 'I':I, 'P':P, 'unconvertmode_':unconvertmode_, 'convertmode_':convertmode_, 'multires_':multires_, 'multiresMode_':multiresMode_, 'bopt':bopt, 'sopt':sopt, 'outfile':outfile}
 
 def time_shift(**args):
-
-	outfile = "./pv/pv_output_phaselock.wav"
 
 	for arg in args:
 		options[arg] = args[arg]
 
-	print options
+	outfile = options['outfile']
 
 	mng = marsyas.MarSystemManager()
 	pvseries = marsyas.system_from_script_file("./marsystems/time-shift.mrs")
@@ -88,6 +87,8 @@ def time_shift(**args):
 	pvseries.linkControl("PvConvert/conv/mrs_realvec/phases", "PvUnconvert/uconv/mrs_realvec/analysisphases")
 	pvseries.linkControl("PvUnconvert/uconv/mrs_realvec/regions", "PvConvert/conv/mrs_realvec/regions")
 
+	
+
 	ticks = 0
 
 	notempty = pvseries.getControl("SoundFileSource/src/mrs_bool/hasData")
@@ -97,20 +98,18 @@ def time_shift(**args):
 			pvseries.updControl("PvUnconvert/uconv/mrs_bool/phaselock", marsyas.MarControlPtr.from_bool(True))
 		
 		pvseries.tick()
-		print ticks
 		ticks = ticks + 1
-		print ticks*(options['D']/44100.0)
+		#print ticks*(options['D']/44100.0)
 
 	return outfile
 
 
 def pitch_shift(**args):
-	outfile = "./pv/pitch_shift1.wav"
 
 	for arg in args:
 		options[arg] = args[arg]
 
-	print options
+	outfile = options['outfile']
 
 	mng = marsyas.MarSystemManager()
 	pvseries = marsyas.system_from_script_file("./marsystems/pitch-shift.mrs")
@@ -164,9 +163,8 @@ def pitch_shift(**args):
 			#pvseries.updControl("PvOscBank/osc/mrs_bool/phaselock", marsyas.MarControlPtr.from_bool(True))
 
 		pvseries.tick()
-		print ticks
 		ticks = ticks + 1
-		print ticks*(options['D']/44100.0)
+		#print ticks*(options['D']/44100.0)
 
 	return outfile
 
@@ -175,17 +173,17 @@ def pitch_shift(**args):
 
 if __name__ == "__main__":
 
-	"""speed = 2
-	ipol = int(16*speed)
+	tempochange = 1/2
+	ipol = int(16/tempochange)
 	infile = "../../phasevocoding/nolove.wav"
-	print "Output file will be at", speed, "times original speed."
-	outputfile = time_shift(N=1024, Nw=1024, D=16, I=ipol, music_file=infile)
-	print("Done!")"""
+	print "Output file will be at", tempochange, "original speed."
+	outputfile = time_shift(N=1024, Nw=1024, D=16, I=ipol, music_file=infile, outfile="./pv/pitch_shift1.wav")
+	print("Done!")
 
 	infile = "../../phasevocoding/nolove.wav"
 	pitch = 1.5
-	print "Output file will be at", pitch, "times original pitch"
-	outputfile = pitch_shift(P=pitch, sopt=220, music_file=infile)
+	print "Output file will be at", pitch, "times original pitch."
+	outputfile = pitch_shift(P=pitch, sopt=220, music_file=infile, outfile="./pv/pitch_shift1.wav")
 	print outputfile
 	print("Done!")
 

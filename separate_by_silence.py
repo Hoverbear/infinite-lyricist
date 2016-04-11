@@ -74,8 +74,10 @@ def combine_short_files(wav_file_writer, minimum_length_seconds):
 def separate_by_silence(wav_filename, threshold, minimum_length_seconds):
     wav_handle = wave.open(wav_filename, 'r')
 
+    # threshold value for sample slicing default 0
     threshold = max(threshold, 0)
 
+    # minimum samples in any cut clip
     min_frame_length = wav_handle.getframerate() * 2 * wav_handle.getnchannels()
 
     wfw = WavFileWriter("/tmp/vocal_split.wav", wav_handle.getparams())
@@ -83,6 +85,7 @@ def separate_by_silence(wav_filename, threshold, minimum_length_seconds):
     frame = ""
 
     for sample, string in wav_sample_iter(wav_handle):
+        # if first sample in frame is below the threshold cut here
         if sample <= threshold:
             if len(frame) >= min_frame_length:
                 wfw.add_data(frame)

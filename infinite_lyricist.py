@@ -3,10 +3,15 @@ import argparse
 import time
 from pydub import AudioSegment
 import random
+import wave
+
+from WavFileWriter import WavFileWriter
 
 from bpm_detector import detect_bpm
 from key_detector import detect_key
 from separate_by_silence import separate_by_silence
+from phase_vocoder import time_shift
+from phase_vocoder import pitch_shift
 
 def parse_timecode(timecode_str):
     parts = timecode_str.split(':')
@@ -103,7 +108,55 @@ print
 
 print vocal_sections
 
-instrumental_sound = AudioSegment.from_file(instrumental_track)
+print
+
+print "Matching vocal tempos to instrumental tempo:"
+
+# Get first clip and initialize iterator
+wav_handle = wave.open(split_vocals[0][0], 'r')
+wfw = WavFileWriter("/tmp/vocal_time-shift.wav", wav_handle.getparams())
+
+v_s = list(vocal_sections)
+bpm_matched_vocals = []
+for i in range(len(v_s)):
+    start = time.time()
+    bpm = v_s[i][3]
+
+    #find closest integer multiple of bpm to the instrumental bpm
+    reg = abs(instrumental_bpm-bpm)
+    double = abs(instrumental_bpm-(2*bpm))
+    half = abs((2*instrumental_bpm) - bpm)
+    difference = min(reg, double, half)
+
+    if(difference == double):
+        tempochange = 2*bpm/float(instrumental_bpm)
+        bpm = bpm*2
+    elif(difference == half):
+        tempochange = bpm/float(2*instrumental_bpm)
+        bpm = bpm/2
+    else:
+        tempochange = bpm/float(instrumental_bpm)
+
+    ipol = int(16/tempochange)
+    outfile = wfw.get_next_name()
+    bpm_matched_vocals.append(time_shift(I=ipol, music_file=fname, outfile=outfile))
+    handle = wave.open(outfile, 'r')
+    vocal_sections[i] = (outfile, float(handle.getnframes())/handle.getframerate(), vocal_sections[i][2], bpm/tempochange)
+    handle.close()
+    print outfile + ":"
+    print " bpm:", vocal_sections[i][3]
+    print " length:", vocal_sections[i][1]
+    print " Elapsed Seconds:", time.time() - start
+
+wav_handle.close()
+
+print
+
+print vocal_sections
+
+
+
+instrumental_sound = AudioSegment.from_wav(instrumental_track)
 
 # Overlay the vocal sections over the instrumental
 while (len(timecodes) > 0) and (len(vocal_sections) > 0):
@@ -118,6 +171,7 @@ while (len(timecodes) > 0) and (len(vocal_sections) > 0):
     for vs in vocal_sections:
         vs_length_milliseconds = vs[1] * 1000
         if vs_length_milliseconds <= tc["duration"]:
+            print "There is a clip match"
             any_can_fit = True
             break
         vs_index += 1
@@ -132,10 +186,16 @@ while (len(timecodes) > 0) and (len(vocal_sections) > 0):
 
     vocal = vocal_sections.pop(vs_index)
     print "vocal=", vocal
-    vocal_sound = AudioSegment.from_file(vocal[0])
+    vocal_sound = AudioSegment.from_wav(vocal[0])
+
+    # convert from mono to stereo to match instrumental. did not solve issue
+    vocal_sound = vocal_sound.set_channels(2)
 
     # Overlay the audio
     instrumental_sound = instrumental_sound.overlay(vocal_sound, position=tc["start"])
+    vocal_sound.export("vocal"+str(vs_index)+".wav", format="wav")
 
 
 instrumental_sound.export("output.wav", format="wav")
+
+
