@@ -1,6 +1,7 @@
 import marsyas
+from copy import deepcopy
 
-options = {
+default_options = {
 	'music_file': None,
 	'N': 1024,
 	'Nw': 1024,
@@ -19,6 +20,7 @@ def time_shift(**args):
 
 	outfile = "./pv/pv_output_phaselock.wav"
 
+	options = deepcopy(default_options)
 	for arg in args:
 		options[arg] = args[arg]
 
@@ -107,6 +109,7 @@ def time_shift(**args):
 def pitch_shift(**args):
 	outfile = "./pv/pitch_shift1.wav"
 
+	options = deepcopy(default_options)
 	for arg in args:
 		options[arg] = args[arg]
 
