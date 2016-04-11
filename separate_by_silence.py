@@ -21,6 +21,16 @@ def wav_params_to_string(wav_filename):
 
 
 def wav_sample_iter(wav_handle):
+    """
+    A generator which returns the next sample in wav file.
+
+    * wav_handl: The Wave_read object returned from wave.open() in read mode.
+
+    Returns a 2-tuple: (integer representing the sample, string representing the sample)
+
+    The wav file must be encoded with a sample width of 2.
+    """
+
     assert wav_handle.getsampwidth() == 2, "Expects wav file with sample width of 2 but found {}".format(wav_handle.getsampwidth())
 
     nframes = wav_handle.getnframes()
@@ -41,6 +51,16 @@ def wav_sample_iter(wav_handle):
 
 
 def combine_short_files(wav_file_writer, minimum_length_seconds):
+    """
+    Combines short files to result files at least as long as a given minimum length.
+
+    * wav_file_writer: An instance of a WavFileWriter which has already created files.
+    * minimum_length_seconds: A number representing the minimum length in seconds.
+
+    Returns a list of tuples in the form (filename, length in seconds) containing
+    information for the files which were longer than the minimum and the files
+    which were created by combining the files which were too short.
+    """
 
     wfw = wav_file_writer
     too_short_list = []
@@ -79,6 +99,18 @@ def combine_short_files(wav_file_writer, minimum_length_seconds):
 
 
 def separate_by_silence(wav_filename, threshold, minimum_length_seconds):
+    """
+    Separate a wav file by silence.
+
+    * threshold: An integer between 0 and 65535 which represents the highest
+                 sample value to be considered noise. Anything above it will
+                 not be considered noise.
+                 If a value less than zero is provided, the threshold will be
+                 set to zero.
+    * minimum_length_seconds: The minimum length in seconds which a sound file must be.
+
+    Returns a list of tuples of (filename, length in seconds) of resulting files.
+    """
     wav_handle = wave.open(wav_filename, 'r')
 
     threshold = max(threshold, 0)
