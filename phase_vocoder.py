@@ -13,7 +13,7 @@ default_options = {
 	'multires_': False,
 	'multiresMode_': "transient_switch",
 	'bopt': 320,
-	'sopt': 80
+	'sopt': (44100 / 2) / 80 # Number of harmonics represented by audio at a sample rate of 44100
 }
 
 def time_shift(**args):
@@ -182,12 +182,12 @@ if __name__ == "__main__":
 	ipol = int(16*speed)
 	infile = "./pv/nolove.wav"
 	print "Output file will be at", speed, "times original speed."
-	outputfile = time_shift(N=1024, Nw=1024, D=16, I=ipol, music_file=infile)
+	outputfile = time_shift(I=ipol, music_file=infile)
 	print("Done!")
 
 	infile = "./pv/nolove.wav"
 	pitch = 1.5
 	print "Output file will be at", pitch, "times original pitch"
-	outputfile = pitch_shift(P=pitch, sopt=220, music_file=infile)
+	outputfile = pitch_shift(P=pitch, music_file=infile)
 	print outputfile
 	print("Done!")
