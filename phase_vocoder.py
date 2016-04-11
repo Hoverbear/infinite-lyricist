@@ -178,12 +178,12 @@ def pitch_shift(**args):
 
 if __name__ == "__main__":
 
-	"""speed = 2
+	speed = 2
 	ipol = int(16*speed)
-	infile = "../../phasevocoding/nolove.wav"
+	infile = "./pv/nolove.wav"
 	print "Output file will be at", speed, "times original speed."
 	outputfile = time_shift(N=1024, Nw=1024, D=16, I=ipol, music_file=infile)
-	print("Done!")"""
+	print("Done!")
 
 	infile = "./pv/nolove.wav"
 	pitch = 1.5
