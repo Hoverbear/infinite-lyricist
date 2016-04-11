@@ -1,26 +1,32 @@
 import marsyas
+from copy import deepcopy
 
-N = 1024
-Nw = 1024
-D = 16
-I = 16
-P = 1.0
-unconvertmode_ = "classic"
-convertmode_ = "sorted"
-multires_ = False
-multiresMode_ = "transient_switch"
-bopt = 320
-sopt = 220
-music_file = ""
-outfile = ""
-options = {'music_file':music_file, 'N':N, 'Nw':Nw, 'D':D, 'I':I, 'P':P, 'unconvertmode_':unconvertmode_, 'convertmode_':convertmode_, 'multires_':multires_, 'multiresMode_':multiresMode_, 'bopt':bopt, 'sopt':sopt, 'outfile':outfile}
+
+default_options = {
+	'music_file': None,
+	'N': 1024,
+	'Nw': 1024,
+	'D': 16,
+	'I': 16,
+	'P': 1.0,
+	'unconvertmode_': 'classic',
+	'convertmode_': 'sorted',
+	'multires_': False,
+	'multiresMode_': "transient_switch",
+	'bopt': 320,
+	'outfile': None,
+	'sopt': (44100 / 2) / 80 # Number of harmonics of F0=80Hz represented by audio at a sample rate of 44100
+}
 
 def time_shift(**args):
+
+	options = deepcopy(default_options)
 
 	for arg in args:
 		options[arg] = args[arg]
 
 	outfile = options['outfile']
+
 
 	mng = marsyas.MarSystemManager()
 	pvseries = marsyas.system_from_script_file("./marsystems/time-shift.mrs")
@@ -29,16 +35,15 @@ def time_shift(**args):
 	pvseries.updControl("mrs_string/outfile", outfile)
 
 
-  	pvseries.updControl("mrs_real/israte", 44100.0)
+	pvseries.updControl("mrs_real/israte", 44100.0)
 	pvseries.updControl("mrs_real/osrate", 44100.0)
 	pvseries.updControl("mrs_natural/inSamples", options['D'])
 	pvseries.updControl("mrs_natural/onSamples", options['I'])
 
 
-  	
-  	
-  	pvseries.updControl("SoundFileSource/src/mrs_natural/onSamples", options['D'])
-  	pvseries.updControl("mrs_natural/inObservations", 1)
+
+	pvseries.updControl("SoundFileSource/src/mrs_natural/onSamples", options['D'])
+	pvseries.updControl("mrs_natural/inObservations", 1)
 
 
 
@@ -71,7 +76,7 @@ def time_shift(**args):
 	pvseries.updControl("PvUnconvert/uconv/mrs_natural/onObservations", options['Nw'])
 	pvseries.updControl("PvUnconvert/uconv/mrs_natural/Interpolation", options['I'])
 	pvseries.updControl("PvUnconvert/uconv/mrs_natural/Decimation", options['D'])
-	
+
 	pvseries.updControl("PvUnconvert/uconv/mrs_string/mode",options['unconvertmode_'])
 
 	pvseries.updControl("InvSpectrum/ispectrum/mrs_natural/onObservations", 1)
@@ -96,7 +101,7 @@ def time_shift(**args):
 	while (notempty.to_bool()):
 		if(ticks == 0):
 			pvseries.updControl("PvUnconvert/uconv/mrs_bool/phaselock", marsyas.MarControlPtr.from_bool(True))
-		
+
 		pvseries.tick()
 		ticks = ticks + 1
 		#print ticks*(options['D']/44100.0)
@@ -106,6 +111,7 @@ def time_shift(**args):
 
 def pitch_shift(**args):
 
+	options = deepcopy(default_options)
 	for arg in args:
 		options[arg] = args[arg]
 
@@ -128,7 +134,7 @@ def pitch_shift(**args):
 
 	pvseries.updControl("ShiftInput/si/mrs_natural/winSize", options['Nw'])
 	pvseries.updControl("ShiftInput/si/mrs_natural/onSamples", options['N'])
-	
+
 
 
 	pvseries.updControl("PvFold/fo/mrs_natural/FFTSize", options['N'])
@@ -166,26 +172,20 @@ def pitch_shift(**args):
 		ticks = ticks + 1
 		#print ticks*(options['D']/44100.0)
 
+
 	return outfile
-
-
-
 
 if __name__ == "__main__":
 
 	tempochange = 1/2
 	ipol = int(16/tempochange)
-	infile = "../../phasevocoding/nolove.wav"
+	infile = "./pv/nolove.wav"
 	print "Output file will be at", tempochange, "original speed."
-	outputfile = time_shift(N=1024, Nw=1024, D=16, I=ipol, music_file=infile, outfile="./pv/pitch_shift1.wav")
+	outputfile = time_shift(I=ipol, music_file=infile, outfile="./pv/time_shift1.wav")
 	print("Done!")
 
-	infile = "../../phasevocoding/nolove.wav"
 	pitch = 1.5
 	print "Output file will be at", pitch, "times original pitch."
-	outputfile = pitch_shift(P=pitch, sopt=220, music_file=infile, outfile="./pv/pitch_shift1.wav")
+	outputfile = pitch_shift(P=pitch, music_file=infile, outfile="./pv/pitch_shift1.wav")
 	print outputfile
 	print("Done!")
-
-
-
