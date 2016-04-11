@@ -6,7 +6,6 @@ import os
 import numpy
 import scipy.io.wavfile
 import scipy.signal
-import pylab
 
 BPM_MIN = 50
 BPM_MAX = 210  # marsyas
@@ -63,7 +62,7 @@ def detect_bpm(filename):
 
     bpm = accumulator_overall(tempo_lags, oss_sr)
 
-    return bpm, tempo_lags[-1]
+    return bpm #, tempo_lags[-1]
 
 def load_wavfile(filename):
     """

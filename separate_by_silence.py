@@ -2,10 +2,14 @@ import wave
 import sys
 from WavFileWriter import WavFileWriter
 import struct
+import copy
 
 
-def wav_params_to_string(wav_handle):
-    return "nchannels=%s sampwidth=%s framerate=%s nframes=%s comptype=%s compname=%s" % wav_handle.getparams()
+def wav_params_to_string(wav_filename):
+    wav_handle = wave.open(wav_filename, 'r')
+    s = "nchannels=%s sampwidth=%s framerate=%s nframes=%s comptype=%s compname=%s" % wav_handle.getparams()
+    wav_handle.close()
+    return s
 
 
 def wav_sample_iter(wav_handle):
@@ -29,12 +33,52 @@ def wav_sample_iter(wav_handle):
                 yield (struct.unpack("H", frame_part)[0], frame_part)
 
 
-def separate_by_silence(wav_handle, threshold):
+def combine_short_files(wav_file_writer, minimum_length_seconds):
+
+    wfw = wav_file_writer
+    too_short_list = []
+    running_length = 0
+    must_copy_next = False
+
+    # Copy because changing something while iterating over it is bad.
+    file_info = copy.deepcopy(wfw.get_file_info())
+
+    for fname, length in file_info:
+        if must_copy_next == False:
+            if length >= minimum_length_seconds:
+                continue
+
+        if running_length < minimum_length_seconds:
+            w = wave.open(fname, 'r')
+            wfw.add_data(w.readframes(w.getnframes()))
+            running_length += float(w.getnframes()) / w.getframerate()
+            w.close()
+            too_short_list.append(fname)
+
+            if running_length >= minimum_length_seconds:
+                wfw.write_to_next_file()
+                running_length = 0
+                must_copy_next = False
+            else:
+                must_copy_next = True
+
+    # Remove filenames for files that were too short.
+    final_file_info = []
+    for tup in wfw.get_file_info():
+        if not tup[0] in too_short_list:
+            final_file_info.append(tup)
+
+    return final_file_info
+
+
+def separate_by_silence(wav_filename, threshold, minimum_length_seconds):
+    wav_handle = wave.open(wav_filename, 'r')
+
     threshold = max(threshold, 0)
 
     min_frame_length = wav_handle.getframerate() * 2 * wav_handle.getnchannels()
 
-    wfw = WavFileWriter("vocal_split.wav", wav_handle.getparams())
+    wfw = WavFileWriter("/tmp/vocal_split.wav", wav_handle.getparams())
 
     frame = ""
 
@@ -51,15 +95,11 @@ def separate_by_silence(wav_handle, threshold):
         wfw.add_data(frame)
         wfw.write_to_next_file()
 
-    return wfw.get_filenames()
+    wav_handle.close()
+
+    return combine_short_files(wfw, minimum_length_seconds)
 
 
 if __name__ == "__main__":
-    handle = wave.open(sys.argv[1], 'r')
-
-    print wav_params_to_string(handle)
-
-    filenames = separate_by_silence(handle, 1)
-    print filenames
-
-
+    print wav_params_to_string(sys.argv[1])
+    print separate_by_silence(sys.argv[1], 1, 4.0)

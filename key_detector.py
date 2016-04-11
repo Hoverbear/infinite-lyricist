@@ -29,7 +29,7 @@ def detect_key(music_file):
 
 
     counts = Counter(result).most_common();
-    print(counts)
+    # print(counts)
     return counts[0][0]
 
 def monop_detect_key():
