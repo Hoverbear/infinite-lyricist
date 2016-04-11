@@ -24,7 +24,7 @@ def time_shift(**args):
 	for arg in args:
 		options[arg] = args[arg]
 
-	print options
+	# print options
 
 	mng = marsyas.MarSystemManager()
 	pvseries = marsyas.system_from_script_file("./marsystems/time-shift.mrs")
@@ -99,9 +99,9 @@ def time_shift(**args):
 			pvseries.updControl("PvUnconvert/uconv/mrs_bool/phaselock", marsyas.MarControlPtr.from_bool(True))
 
 		pvseries.tick()
-		print ticks
+		# print ticks
 		ticks = ticks + 1
-		print ticks*(options['D']/44100.0)
+		# print ticks*(options['D']/44100.0)
 
 	return outfile
 
@@ -113,7 +113,7 @@ def pitch_shift(**args):
 	for arg in args:
 		options[arg] = args[arg]
 
-	print options
+	# print options
 
 	mng = marsyas.MarSystemManager()
 	pvseries = marsyas.system_from_script_file("./marsystems/pitch-shift.mrs")
@@ -167,9 +167,9 @@ def pitch_shift(**args):
 			#pvseries.updControl("PvOscBank/osc/mrs_bool/phaselock", marsyas.MarControlPtr.from_bool(True))
 
 		pvseries.tick()
-		print ticks
+		# print ticks
 		ticks = ticks + 1
-		print ticks*(options['D']/44100.0)
+		# print ticks*(options['D']/44100.0)
 
 	return outfile
 
