@@ -1,18 +1,19 @@
 import marsyas
 
-N = 1024
-Nw = 1024
-D = 16
-I = 16
-P = 1.0
-unconvertmode_ = "classic"
-convertmode_ = "sorted"
-multires_ = False
-multiresMode_ = "transient_switch"
-bopt = 320
-sopt = 80
-music_file = ""
-options = {'music_file':music_file, 'N':N, 'Nw':Nw, 'D':D, 'I':I, 'P':P, 'unconvertmode_':unconvertmode_, 'convertmode_':convertmode_, 'multires_':multires_, 'multiresMode_':multiresMode_, 'bopt':bopt, 'sopt':sopt}
+options = {
+	'music_file': None,
+	'N': 1024,
+	'Nw': 1024,
+	'D': 16,
+	'I': 16,
+	'P': 1.0,
+	'unconvertmode_': 'classic',
+	'convertmode_': 'sorted',
+	'multires_': False,
+	'multiresMode_': "transient_switch",
+	'bopt': 320,
+	'sopt': 80
+}
 
 def time_shift(**args):
 
@@ -30,16 +31,15 @@ def time_shift(**args):
 	pvseries.updControl("mrs_string/outfile", outfile)
 
 
-  	pvseries.updControl("mrs_real/israte", 44100.0)
+	pvseries.updControl("mrs_real/israte", 44100.0)
 	pvseries.updControl("mrs_real/osrate", 44100.0)
 	pvseries.updControl("mrs_natural/inSamples", options['D'])
 	pvseries.updControl("mrs_natural/onSamples", options['I'])
 
 
-  	
-  	
-  	pvseries.updControl("SoundFileSource/src/mrs_natural/onSamples", options['D'])
-  	pvseries.updControl("mrs_natural/inObservations", 1)
+
+	pvseries.updControl("SoundFileSource/src/mrs_natural/onSamples", options['D'])
+	pvseries.updControl("mrs_natural/inObservations", 1)
 
 
 
@@ -72,7 +72,7 @@ def time_shift(**args):
 	pvseries.updControl("PvUnconvert/uconv/mrs_natural/onObservations", options['Nw'])
 	pvseries.updControl("PvUnconvert/uconv/mrs_natural/Interpolation", options['I'])
 	pvseries.updControl("PvUnconvert/uconv/mrs_natural/Decimation", options['D'])
-	
+
 	pvseries.updControl("PvUnconvert/uconv/mrs_string/mode",options['unconvertmode_'])
 
 	pvseries.updControl("InvSpectrum/ispectrum/mrs_natural/onObservations", 1)
@@ -95,7 +95,7 @@ def time_shift(**args):
 	while (notempty.to_bool()):
 		if(ticks == 0):
 			pvseries.updControl("PvUnconvert/uconv/mrs_bool/phaselock", marsyas.MarControlPtr.from_bool(True))
-		
+
 		pvseries.tick()
 		print ticks
 		ticks = ticks + 1
@@ -129,7 +129,7 @@ def pitch_shift(**args):
 
 	pvseries.updControl("ShiftInput/si/mrs_natural/winSize", options['Nw'])
 	pvseries.updControl("ShiftInput/si/mrs_natural/onSamples", options['N'])
-	
+
 
 
 	pvseries.updControl("PvFold/fo/mrs_natural/FFTSize", options['N'])
@@ -182,12 +182,9 @@ if __name__ == "__main__":
 	outputfile = time_shift(N=1024, Nw=1024, D=16, I=ipol, music_file=infile)
 	print("Done!")"""
 
-	infile = "../../phasevocoding/nolove.wav"
+	infile = "./pv/nolove.wav"
 	pitch = 1.5
 	print "Output file will be at", pitch, "times original pitch"
 	outputfile = pitch_shift(P=pitch, sopt=220, music_file=infile)
 	print outputfile
 	print("Done!")
-
-
-
