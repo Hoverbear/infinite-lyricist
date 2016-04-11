@@ -6,6 +6,14 @@ import copy
 
 
 def wav_params_to_string(wav_filename):
+    """
+    Builds a string of metadata from the parameters of a given wav filename.
+
+    * wav_filename: A filename.
+
+    Returns "nchannels=?? sampwidth=?? framerate=?? nframes=?? comptype=?? compname=??"
+    """
+
     wav_handle = wave.open(wav_filename, 'r')
     s = "nchannels=%s sampwidth=%s framerate=%s nframes=%s comptype=%s compname=%s" % wav_handle.getparams()
     wav_handle.close()
@@ -13,7 +21,6 @@ def wav_params_to_string(wav_filename):
 
 
 def wav_sample_iter(wav_handle):
-
     assert wav_handle.getsampwidth() == 2, "Expects wav file with sample width of 2 but found {}".format(wav_handle.getsampwidth())
 
     nframes = wav_handle.getnframes()

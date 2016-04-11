@@ -173,9 +173,6 @@ def pitch_shift(**args):
 
 	return outfile
 
-
-
-
 if __name__ == "__main__":
 
 	speed = 2
