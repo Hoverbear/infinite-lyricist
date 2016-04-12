@@ -2,11 +2,9 @@
 
 A CSC-475 at the University of Victoria project by Andrew Hobden, Brody Holden, and Pascale Mendes.
 
-This is a work in progress. Full instructions will follow.
-
 ## Prerequisites
 
-You must be using Python 2.7 (Not 3.0) and have a valid Marsyas installation with Swig bindings enabled in the build.
+You must be using Python 2.7.x (Not 3.x) and have a valid Marsyas installation with Swig bindings enabled in the build.
 
 Additionally, you should install the following via `pip`:
 
@@ -16,10 +14,12 @@ Additionally, you should install the following via `pip`:
 
 Combine a provided instrumental track with your own vocal file by running:
 
- >$ python infinite_lyricist.py \  
- > \> your-vocal-track.wav \  
- > \> song/wav/song-bass+guitar+synth+drums.wav \  
- > \> 00:08-00:14:5000,00:15-00:22:5000,00:23-00:31:5000,00:32-00:39:500,00:40-00:46:5000,00:47-00:56
+```bash
+python infinite_lyricist.py \  
+    your-vocal-track.wav \  
+    song/wav/song-bass+guitar+synth+drums.wav \  
+    00:08-00:14:5000,00:15-00:22:5000,00:23-00:31:5000,00:32-00:39:500,00:40-00:46:5000,00:47-00:56
+```
 
 ## Details of Running
 
@@ -31,7 +31,7 @@ Timecode lists are in the form `start0-end0,start1-end1,...,startN-endN`, where
 
 * `end` is a timecode denoting the end of a section
 
-* 0, 1, ..., N are the number of sections
+* 0, 1, ..., N are the number of the sections
 
 The format of `start` and `end` is `MM:SS:FFFF`, where:
 
@@ -42,7 +42,3 @@ The format of `start` and `end` is `MM:SS:FFFF`, where:
 * `FFFF` is one to four digits denoting milliseconds
 
 * Any number of leading zeros is permitted.
-
-## Developing
-
-There is a `marsystems` folder containing a relevant Marsyas systems. See the `marsyas_helper.py` file for a helper function to invoke them. Feel encouraged to expand this.
