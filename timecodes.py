@@ -3,12 +3,12 @@ def parse_timecode(timecode_str):
     Parse a timecode.
 
     The timecode format:
-        MM:SS:FFFF, where:
+        MM:SS:FFF, where:
             MM is one or two digits denoting minutes
             SS is one or two digits denoting seconds
-            FFFF is one to four digits denoting milliseconds
+            FFF is one to three digits denoting milliseconds
 
-            Any number of leading zeros is permitted.
+            Leading zeros are permitted.
 
     * timecode_str: A string containing a timecode.
 
@@ -57,3 +57,16 @@ def parse_timecodes(timecode_str):
         } )
 
     return timecodes
+
+
+# Some tests
+if __name__ == "__main__":
+    start_timecode = "00:08"
+    end_timecode = "00:14:500"
+    start = parse_timecode(start_timecode)
+    end = parse_timecode(end_timecode)
+    print "start:", start_timecode, "=", start
+    print "end:  ", end_timecode, "=", end
+    assert start == 8000
+    assert end == 14500
+

@@ -155,9 +155,9 @@ if __name__ == "__main__":
         Comma separated timecodes that mark the start of sections in the instrumental input.
         Each timecode consists of a start timestamp and an end timestamp separate by a dash.
         The timestamp format is:
-            MM:SS:FFFF M=minutes, S=seconds, F=milliseconds (optional).
+            MM:SS:FFF M=minutes, S=seconds, F=milliseconds (optional).
         Example timecodes for the provided song:
-            00:08-00:14:5000,00:15-00:22:5000,00:23-00:31:5000,00:32-00:39:500,00:40-00:46:5000,00:47-00:56
+            00:08-00:14:500,00:15-00:22:500,00:23-00:31:500,00:32-00:39:500,00:40-00:46:500,00:47-00:56
     """)
 
     # Now we parse them and pick up the existing files or error out.

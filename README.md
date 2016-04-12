@@ -18,7 +18,7 @@ Combine a provided instrumental track with your own vocal file by running:
 python infinite_lyricist.py \  
     your-vocal-track.wav \  
     song/wav/song-bass+guitar+synth+drums.wav \  
-    00:08-00:14:5000,00:15-00:22:5000,00:23-00:31:5000,00:32-00:39:500,00:40-00:46:5000,00:47-00:56
+    00:08-00:14:500,00:15-00:22:500,00:23-00:31:500,00:32-00:39:500,00:40-00:46:500,00:47-00:56
 ```
 
 ## Details of Running
@@ -39,6 +39,6 @@ The format of `start` and `end` is `MM:SS:FFFF`, where:
 
 * `SS` is one or two digits denoting seconds
 
-* `FFFF` is one to four digits denoting milliseconds
+* `FFF` is one to four digits denoting milliseconds
 
 * Any number of leading zeros is permitted.
