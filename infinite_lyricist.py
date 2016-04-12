@@ -12,6 +12,7 @@ from key_detector import detect_key
 from separate_by_silence import separate_by_silence
 from phase_vocoder import time_shift
 from phase_vocoder import pitch_shift
+from fix_header import fix_header
 
 def parse_timecode(timecode_str):
     """
@@ -168,9 +169,8 @@ for i in range(len(v_s)):
     ipol = int(16/tempochange)
     outfile = wfw.get_next_name()
     bpm_matched_vocals.append(time_shift(I=ipol, music_file=fname, outfile=outfile))
-    handle = wave.open(outfile, 'r')
-    vocal_sections[i] = (outfile, float(handle.getnframes())/handle.getframerate(), vocal_sections[i][2], bpm/tempochange)
-    handle.close()
+    length = fix_header(outfile)
+    vocal_sections[i] = (outfile, length, vocal_sections[i][2], bpm/tempochange)
     print outfile + ":"
     print " bpm:", vocal_sections[i][3]
     print " length:", vocal_sections[i][1]
@@ -187,6 +187,7 @@ print vocal_sections
 instrumental_sound = AudioSegment.from_wav(instrumental_track)
 
 # Overlay the vocal sections over the instrumental
+i = 0
 while (len(timecodes) > 0) and (len(vocal_sections) > 0):
     # Get a random section of the instrumental
     tc = timecodes.pop(random.randrange(len(timecodes)))
@@ -217,11 +218,12 @@ while (len(timecodes) > 0) and (len(vocal_sections) > 0):
     vocal_sound = AudioSegment.from_wav(vocal[0])
 
     # convert from mono to stereo to match instrumental. did not solve issue
-    vocal_sound = vocal_sound.set_channels(2)
+    # vocal_sound = vocal_sound.set_channels(2)
 
     # Overlay the audio
     instrumental_sound = instrumental_sound.overlay(vocal_sound, position=tc["start"])
-    vocal_sound.export("vocal"+str(vs_index)+".wav", format="wav")
+    vocal_sound.export("vocal"+str(i)+".wav", format="wav")
+    i += 1
 
 
 instrumental_sound.export("output.wav", format="wav")

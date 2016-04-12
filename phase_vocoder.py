@@ -92,6 +92,8 @@ def time_shift(**args):
 	pvseries.linkControl("PvConvert/conv/mrs_realvec/phases", "PvUnconvert/uconv/mrs_realvec/analysisphases")
 	pvseries.linkControl("PvUnconvert/uconv/mrs_realvec/regions", "PvConvert/conv/mrs_realvec/regions")
 
+	pvseries.updControl("SoundFileSink/last/mrs_natural/bitrate", 320)
+
 	
 
 	ticks = 0
