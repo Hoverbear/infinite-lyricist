@@ -1,16 +1,16 @@
 Series {
-	+ public file = ""
-	+ public outfile = ""
+    + public file = ""
+    + public outfile = ""
     + public done = (src/hasData == false)
     + public output = last/processedData
-	-> src: SoundFileSource {filename = /file}
-	-> si: ShiftInput
-	-> fo: PvFold
-	-> Spectrum
-	-> conv: PvConvert
-	-> uconv: PvUnconvert
-	-> ispectrum: InvSpectrum
-	-> pover: PvOverlapadd
-	-> so: ShiftOutput
-	-> last: SoundFileSink {filename = /outfile}
+    -> src: SoundFileSource {filename = /file}
+    -> si: ShiftInput
+    -> fo: PvFold
+    -> Spectrum
+    -> conv: PvConvert
+    -> uconv: PvUnconvert
+    -> ispectrum: InvSpectrum
+    -> pover: PvOverlapadd
+    -> so: ShiftOutput
+    -> last: SoundFileSink {filename = /outfile}
 }
