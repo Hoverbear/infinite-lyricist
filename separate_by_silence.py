@@ -24,7 +24,7 @@ def wav_sample_iter(wav_handle):
     """
     A generator which returns the next sample in wav file.
 
-    * wav_handl: The Wave_read object returned from wave.open() in read mode.
+    * wav_handle: The Wave_read object returned from wave.open() in read mode.
 
     Returns a 2-tuple: (integer representing the sample, string representing the sample)
 
