@@ -166,13 +166,15 @@ if __name__ == "__main__":
         Example timecodes for the provided song:
             00:08-00:14:500,00:15-00:22:500,00:23-00:31:500,00:32-00:39:500,00:40-00:46:500,00:47-00:56
     """)
+    parser.add_argument('output_track', metavar='output_track', help='The output destination')
+
 
     # Now we parse them and pick up the existing files or error out.
     args = parser.parse_args()
     vocal_track = args.vocal_input
     instrumental_track = args.instrumental_input
+    output_track = args.output_track
     timecodes = parse_timecodes(args.instrumental_timecodes)
-    output_track = "output.wav"
 
 
     print "Generating a mashup based on those parameters. Please wait a minute or two..."
