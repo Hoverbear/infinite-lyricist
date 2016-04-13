@@ -62,7 +62,7 @@ You must provide timecodes for when sections start and end in the instrumental t
 
 ## Details of Using Your Own Tracks
 
-Run with `./infinite-lyricist vocal.wav instrumental.wav timecodelist`, where `timecodelist` is a comma separated list of starts and ends times for the different sections of the instrumental track.
+Run with `./infinite-lyricist vocal.wav instrumental.wav timecodelist outputtrack`, where `outputtrack` is the filename of system output with the `.wav` extension, and `timecodelist` is a comma separated list of starts and ends times for the different sections of the instrumental track.
 
 Timecode lists are in the form `start0-end0,start1-end1,...,startN-endN`, where
 
