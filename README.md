@@ -44,7 +44,7 @@ Generate a mashup with many sections:
 make dp-lots-of-sections
 ```
 
-## Running Your Own Tracks
+## Using Your Own Tracks
 
 To combine one of the provided instrumental track with your own vocal file, run:
 
@@ -59,7 +59,7 @@ python infinite_lyricist.py \
 Of course you can use your own instrumental track as well.
 You must provide timecodes for when sections start and end in the instrumental track.
 
-## Details of Running Your Own Tracks
+## Details of Using Your Own Tracks
 
 Run with `./infinite-lyricist vocal.wav instrumental.wav timecodelist`, where `timecodelist` is a comma separated list of starts and ends times for the different sections of the instrumental track.
 
