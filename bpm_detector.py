@@ -1,4 +1,17 @@
-# USe as `bpm_of_file("tester.wav")`
+# Bibtex reference for source:
+#
+# @article{percival2014streamlined,
+#   title={Streamlined tempo estimation based on autocorrelation and cross-correlation with pulses},
+#   author={Percival, Graham and Tzanetakis, George},
+#   journal={Audio, Speech, and Language Processing, IEEE/ACM Transactions on},
+#   volume={22},
+#   number={12},
+#   pages={1765--1776},
+#   year={2014},
+#   publisher={IEEE}
+# }
+
+# Use as `bpm_of_file("tester.wav")`
 
 import sys
 import os
