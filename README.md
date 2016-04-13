@@ -56,7 +56,8 @@ python infinite_lyricist.py \
     output.wav
 ```
 
-Of course you can use your own instrumental track as well.
+Of course you can use your own instrumental track as well. We recommend stripping any ID3 tags off input tracks as we found they could contribute to unexpected output.
+
 You must provide timecodes for when sections start and end in the instrumental track.
 
 ## Details of Using Your Own Tracks
