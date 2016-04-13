@@ -6,13 +6,42 @@ A CSC-475 at the University of Victoria project by Andrew Hobden, Brody Holden, 
 
 You must be using Python 2.7.x (Not 3.x) and have a valid Marsyas installation with Swig bindings enabled in the build.
 
+The `make` utility is required to run the quick demos.
+
 Additionally, you should install the following via `pip`:
 
 * `pydub`
 
-## Quick Run
+## Quick Demos
 
-Combine a provided instrumental track with your own vocal file by running:
+Generate a mashup with vocals at the start of the instrumental track:
+
+```bash
+make dp-start
+```
+
+Generate a mashup when the timecodes match the sections in the instrumental track:
+
+```bash
+make dp-same-length-sections
+```
+
+Generate a mashup when the timecodes are longer than the sections in the instrumental track:
+
+```bash
+make dp-different-length-sections
+```
+
+The Infinite Lyricist has an element to randomness to it. It can generate two different mashups using the same parameters:
+
+```bash
+make dp-pair
+```
+
+
+## Running Your Own Tracks
+
+To combine one of the provided instrumental track with your own vocal file, run:
 
 ```bash
 python infinite_lyricist.py \  
@@ -22,7 +51,10 @@ python infinite_lyricist.py \
     output.wav
 ```
 
-## Details of Running
+Of course you can use your own instrumental track as well.
+You must provide timecodes for when sections start and end in the instrumental track.
+
+## Details of Running Your Own Tracks
 
 Run with `./infinite-lyricist vocal.wav instrumental.wav timecodelist`, where `timecodelist` is a comma separated list of starts and ends times for the different sections of the instrumental track.
 
