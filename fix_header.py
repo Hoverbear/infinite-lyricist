@@ -40,9 +40,11 @@ def fix_header(wav_file):
 	return float(nframes)/samplerate
 
 
-
+# Simple test
 if __name__ == "__main__":
-	test_file = "/tmp/vocal_time-shift0.wav"
+	import sys
+
+	test_file = sys.argv[1]
 	fix_header(test_file)
 
 	vocal_sound = AudioSegment.from_wav(test_file)
