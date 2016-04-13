@@ -33,3 +33,11 @@ dp-different-length-sections:
 		song/wav/song-bass+guitar+synth+drums.wav \
 		00:08-00:30,00:15-00:45,00:23-00:26,00:32-00:39:500,00:40-00:46:500,00:47-00:56 \
 		outputs/dp-different-length-sections.wav
+
+dp-lots-of-sections:
+	mkdir -p outputs
+	python2 infinite_lyricist.py \
+		vocals/dp-hbfs.wav \
+		song/wav/song-bass+guitar+synth+drums.wav \
+		00:00-00:05,00:07-00:10,00:15-00:25,00:27-00:35,00:35-00:46,00:50-00:56,00:56-1:20 \
+		outputs/dp-lots-of-sections.wav
