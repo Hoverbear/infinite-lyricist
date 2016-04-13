@@ -18,7 +18,7 @@ from timecodes import parse_timecodes
 
 
 def infinite_lyricist(vocal_track, instrumental_track, timecodes, output_track):
-    
+
     """Generates a mashup from the given inputs.
 
     * vocal_track: The file name of the input vocal track.
@@ -95,7 +95,9 @@ def infinite_lyricist(vocal_track, instrumental_track, timecodes, output_track):
 
         ipol = int(16/tempochange)
         outfile = wfw.get_next_name()
-        bpm_matched_vocals.append(time_shift(I=ipol, music_file=fname, outfile=outfile))
+        # print(outfile)
+        # print(v_s[i])
+        bpm_matched_vocals.append(time_shift(I=ipol, music_file=v_s[i][0], outfile=outfile))
         length = fix_header(outfile)
         vocal_sections[i] = (outfile, length, vocal_sections[i][2], bpm/tempochange)
 
@@ -119,6 +121,7 @@ def infinite_lyricist(vocal_track, instrumental_track, timecodes, output_track):
         any_can_fit = False
         vs_index = 0
         for vs in vocal_sections:
+            # print vs[1]
             vs_length_milliseconds = vs[1] * 1000
             if vs_length_milliseconds <= tc["duration"]:
                 # print "There is a clip match"
