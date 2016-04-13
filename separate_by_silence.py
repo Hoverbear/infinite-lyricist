@@ -1,5 +1,4 @@
 import wave
-import sys
 from WavFileWriter import WavFileWriter
 import struct
 import copy
@@ -143,5 +142,7 @@ def separate_by_silence(wav_filename, threshold, minimum_length_seconds):
 
 
 if __name__ == "__main__":
+    import sys
+
     print wav_params_to_string(sys.argv[1])
     print separate_by_silence(sys.argv[1], 1, 4.0)

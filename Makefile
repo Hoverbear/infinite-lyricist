@@ -1,5 +1,5 @@
 all:
-	echo "Pick a task from the file please."
+	echo "Pick a target from the Makefile please."
 
 dp-start:
 	mkdir -p outputs

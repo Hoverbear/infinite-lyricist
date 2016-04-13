@@ -75,9 +75,11 @@ def infinite_lyricist(vocal_track, instrumental_track, timecodes, output_track):
     v_s = list(vocal_sections)
     bpm_matched_vocals = []
     for i in range(len(v_s)):
-        # start = time.time()
+        
+        start = time.time()
         bpm = v_s[i][3]
-
+        fname = v_s[i][0]
+        
         #find closest integer multiple of bpm to the instrumental bpm
         reg = abs(instrumental_bpm-bpm)
         double = abs(instrumental_bpm-(2*bpm))
@@ -95,16 +97,14 @@ def infinite_lyricist(vocal_track, instrumental_track, timecodes, output_track):
 
         ipol = int(16/tempochange)
         outfile = wfw.get_next_name()
-        # print(outfile)
-        # print(v_s[i])
-        bpm_matched_vocals.append(time_shift(I=ipol, music_file=v_s[i][0], outfile=outfile))
+        bpm_matched_vocals.append(time_shift(I=ipol, music_file=fname, outfile=outfile))
         length = fix_header(outfile)
         vocal_sections[i] = (outfile, length, vocal_sections[i][2], bpm/tempochange)
 
-        # print outfile + ":"
-        # print " bpm:", vocal_sections[i][3]
-        # print " length:", vocal_sections[i][1]
-        # print " Elapsed Seconds:", time.time() - start
+        print outfile + ":"
+        print " bpm:", vocal_sections[i][3]
+        print " length:", vocal_sections[i][1]
+        print " Elapsed Seconds:", time.time() - start
 
     wav_handle.close()
 

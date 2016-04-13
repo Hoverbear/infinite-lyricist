@@ -178,16 +178,17 @@ def pitch_shift(**args):
 	return outfile
 
 if __name__ == "__main__":
+	import sys
 
-	tempochange = 1/2
+	tempochange = 1.0/2
 	ipol = int(16/tempochange)
-	infile = "./pv/nolove.wav"
+	infile = sys.argv[1]
 	print "Output file will be at", tempochange, "original speed."
-	outputfile = time_shift(I=ipol, music_file=infile, outfile="./pv/time_shift1.wav")
+	outputfile = time_shift(I=ipol, music_file=infile, outfile="time_shift1.wav")
 	print("Done!")
 
 	pitch = 1.5
 	print "Output file will be at", pitch, "times original pitch."
-	outputfile = pitch_shift(P=pitch, music_file=infile, outfile="./pv/pitch_shift1.wav")
+	outputfile = pitch_shift(P=pitch, music_file=infile, outfile="pitch_shift1.wav")
 	print outputfile
 	print("Done!")
