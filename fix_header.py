@@ -4,7 +4,11 @@ import wave
 
 
 def fix_header(wav_file):
+	"""
+	Fixes a bad header from one of the outputs.
 
+	* wav_file: The file name.
+	"""
 	w = wave.open(wav_file, 'r')
 
 	nframes = w.getnframes()
