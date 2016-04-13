@@ -9,6 +9,15 @@ dp-start:
 		00:00-00:30 \
 		outputs/dp-start.wav
 
+dp-start-2:
+	python2 infinite_lyricist.py \
+		vocals/dp-hbfs.wav \
+		song/wav/song-bass+guitar+synth+drums.wav \
+		00:00-00:30 \
+		outputs/dp-start-2.wav
+
+dp-pair: dp-start dp-start-2
+
 dp-same-length-sections:
 	mkdir -p outputs
 	python2 infinite_lyricist.py \

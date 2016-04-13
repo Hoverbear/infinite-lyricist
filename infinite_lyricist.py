@@ -118,26 +118,33 @@ def infinite_lyricist(vocal_track, instrumental_track, timecodes, output_track):
         # print "timecode=", tc
 
         # Find a vocal section that fits in the duration of the instructional section
-        any_can_fit = False
+        can_fit = []
         vs_index = 0
         for vs in vocal_sections:
             # print vs[1]
             vs_length_milliseconds = vs[1] * 1000
             if vs_length_milliseconds <= tc["duration"]:
                 # print "There is a clip match"
-                any_can_fit = True
-                break
+                can_fit.append(vs_index)
             vs_index += 1
 
-        # No vocal section is short enough for this duration
-        if not any_can_fit:
+        # Sort by clip duration so we get better matches
+        can_fit.sort(key=lambda x: vocal_sections[x][1], reverse=True)
+        the_chosen_one = None;
+        if len(can_fit) == 0:
+            # No vocal section is short enough for this duration
             # print "vs_index:", vs_index
             # print "len(vocal_sections):", len(vocal_sections)
             # print "vs_index >= len(vocal_sections):", vs_index >= len(vocal_sections)
         #if vs_index >= len(vocal_sections):
             continue
+        else:
+            top = can_fit;
+            if top > 5:
+                top = 5
+            the_chosen_one = can_fit.pop(random.randrange(top))
 
-        vocal = vocal_sections.pop(vs_index)
+        vocal = vocal_sections.pop(the_chosen_one)
         # print "vocal=", vocal
         vocal_sound = AudioSegment.from_wav(vocal[0])
 
