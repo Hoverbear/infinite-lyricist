@@ -18,7 +18,7 @@ from timecodes import parse_timecodes
 
 
 def infinite_lyricist(vocal_track, instrumental_track, timecodes, output_track):
-    
+
     """Generates a mashup from the given inputs.
 
     * vocal_track: The file name of the input vocal track.
@@ -97,7 +97,6 @@ def infinite_lyricist(vocal_track, instrumental_track, timecodes, output_track):
 
         ipol = int(16/tempochange)
         outfile = wfw.get_next_name()
-
         bpm_matched_vocals.append(time_shift(I=ipol, music_file=fname, outfile=outfile))
         length = fix_header(outfile)
         vocal_sections[i] = (outfile, length, vocal_sections[i][2], bpm/tempochange)
@@ -122,6 +121,7 @@ def infinite_lyricist(vocal_track, instrumental_track, timecodes, output_track):
         any_can_fit = False
         vs_index = 0
         for vs in vocal_sections:
+            # print vs[1]
             vs_length_milliseconds = vs[1] * 1000
             if vs_length_milliseconds <= tc["duration"]:
                 # print "There is a clip match"
@@ -166,13 +166,15 @@ if __name__ == "__main__":
         Example timecodes for the provided song:
             00:08-00:14:500,00:15-00:22:500,00:23-00:31:500,00:32-00:39:500,00:40-00:46:500,00:47-00:56
     """)
+    parser.add_argument('output_track', metavar='output_track', help='The output destination')
+
 
     # Now we parse them and pick up the existing files or error out.
     args = parser.parse_args()
     vocal_track = args.vocal_input
     instrumental_track = args.instrumental_input
+    output_track = args.output_track
     timecodes = parse_timecodes(args.instrumental_timecodes)
-    output_track = "output.wav"
 
 
     print "Generating a mashup based on those parameters. Please wait a minute or two..."
