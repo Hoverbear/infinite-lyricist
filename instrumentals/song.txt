@@ -11,7 +11,7 @@ The combinations where created by:
     - In TuxGuitar, export as midi (File>Export>Export Midi). Save the file in
       the midi/ directory.
     - Via the command line, enter:
-        $ cd samples/song/
+        $ cd instrumentals/
         $ ./midi2wav.sh
       The wav files are now in the wav/ directory.
 

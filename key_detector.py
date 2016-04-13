@@ -33,9 +33,9 @@ def detect_key(music_file):
     return counts[0][0]
 
 if __name__ == "__main__":
-    selection = detect_key("song/wav/song-synth.wav")
+    selection = detect_key("instrumentals/wav/song-synth.wav")
     print("Truth: e, Chosen: " + selection)
-    selection = detect_key("song/wav/song-bass.wav")
+    selection = detect_key("instrumentals/wav/song-bass.wav")
     print("Truth: a, Chosen: " + selection)
-    selection = detect_key("song/wav/song-guitar.wav")
+    selection = detect_key("instrumentals/wav/song-guitar.wav")
     print("Truth: a, Chosen: " + selection)
