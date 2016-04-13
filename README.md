@@ -20,13 +20,13 @@ Generate a mashup with vocals at the start of the instrumental track:
 make dp-start
 ```
 
-Generate a mashup when the timecodes match the sections in the instrumental track:
+Generate a mashup with timecodes that have the same duration:
 
 ```bash
 make dp-same-length-sections
 ```
 
-Generate a mashup when the timecodes are longer than the sections in the instrumental track:
+Generate a mashup with timecodes that have different durations:
 
 ```bash
 make dp-different-length-sections
@@ -38,6 +38,11 @@ The Infinite Lyricist has an element to randomness to it. It can generate two di
 make dp-pair
 ```
 
+Generate a mashup with many sections:
+
+```bash
+make dp-lots-of-sections
+```
 
 ## Running Your Own Tracks
 
